@@ -2097,8 +2097,8 @@ abstract class AudioSource {
   static UriAudioSource uri(Uri uri,
       {Map<String, String>? headers, dynamic tag}) {
     bool hasExtension(Uri uri, String extension) =>
-        uri.path.toLowerCase().endsWith('.$extension') ||
-        uri.fragment.toLowerCase().endsWith('.$extension');
+        uri.path.toLowerCase().contains('.$extension') ||
+        uri.fragment.toLowerCase().contains('.$extension');
     if (hasExtension(uri, 'mpd')) {
       return DashAudioSource(uri, headers: headers, tag: tag);
     } else if (hasExtension(uri, 'm3u8')) {
@@ -3191,7 +3191,7 @@ _ProxyHandler _proxyHandlerForUri(
       request.response.statusCode = originResponse.statusCode;
 
       // Send response
-      if (headers != null && request.uri.path.toLowerCase().endsWith('.m3u8') ||
+      if (headers != null && request.uri.path.toLowerCase().contains('.m3u8') ||
           ['application/x-mpegURL', 'application/vnd.apple.mpegurl']
               .contains(request.headers.value(HttpHeaders.contentTypeHeader))) {
         // If this is an m3u8 file with headers, prepare the nested URIs.
